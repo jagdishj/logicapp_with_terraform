@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	
+	"parameters": {
+		"logicappName": {
+			"type": "string",
+			"metadata": {
+				"description": "logic app Name"
+			}
+		}
+	},
+	"variables": {
+	},
+	"functions": [],
+	"resources": [{
+        "apiVersion": "2016-06-01",
+		"type": "Microsoft.logic/workflows",
+		"name": "[parameters('logicappName')]",
+		"location": "[resourceGroup().location]",
+		"identity": {
+			"type": "SystemAssigned"
+		},
+		"properties": {
+			"definition": {
+				"$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+				"actions": {},
+				"parameters": {},
+				"triggers": {},
+				"contentVersion": "1.0.0.0",
+				"outputs": {}
+			}
+		}
+	}],
+	"outputs": {
+		 "manageId": {
+            "value": "[reference(resourceId('Microsoft.Logic/workflows',parameters('logicappName')),'2016-06-01','Full').identity.principalId]",
+		    "type": "string"
+        }
+	}
+}
